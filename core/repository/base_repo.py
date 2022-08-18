@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Any, List, TypeVar, Optional
 
-from core.db.session import Base, session
-from sqlalchemy import insert, select, update, delete, func
+from sqlalchemy import select, update, delete, func
 
+from core.db.session import Base, session
 from core.repository.enum import SynchronizeSessionEnum
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -12,12 +12,12 @@ ModelType = TypeVar("ModelType", bound=Base)
 class BaseRepo(ABC):
     @classmethod
     @abstractmethod
-    async def safe_commit(cls, query: Any) -> None:
+    async def safe_commit(cls, query: Any = None, model: Optional[ModelType] = None) -> Optional[ModelType]:
         pass
 
     @classmethod
     @abstractmethod
-    async def save(cls, params: dict) -> None:
+    async def save(cls, model: Optional[ModelType]) -> Optional[ModelType]:
         pass
 
     @classmethod
@@ -37,29 +37,36 @@ class BaseRepo(ABC):
 
     @classmethod
     @abstractmethod
-    async def update_by_id(cls, id: int, params: dict, synchronize_session: SynchronizeSessionEnum = False) -> None:
+    async def update_by_id(cls, id: int, params: dict, synchronize_session: SynchronizeSessionEnum = False) -> int:
         pass
 
     @classmethod
     @abstractmethod
-    async def delete_by_id(cls, id: int, synchronize_session: SynchronizeSessionEnum = False) -> None:
+    async def delete_by_id(cls, id: int, synchronize_session: SynchronizeSessionEnum = False) -> int:
         pass
 
 
 class BaseRepoORM(BaseRepo):
     @classmethod
-    async def safe_commit(cls, query: Any) -> None:
+    async def safe_commit(cls, query: Any = None, model: Optional[ModelType] = None) -> Optional[ModelType]:
         try:
-            await session.execute(query)
-            await session.commit()
+            if not ((query is None) is not (model is None)):
+                raise ValueError("Cannot commit query and model at the same time.")
+            if query:
+                await session.execute(query)
+                await session.commit()
+            if model:
+                session.add(model)
+                await session.commit()
+                await session.refresh(model)
+                return model
         except Exception as e:
             await session.rollback()
             raise e
 
     @classmethod
-    async def save(cls, params: dict) -> None:
-        query = insert(cls.model).values(params)
-        await cls.safe_commit(query)
+    async def save(cls, model: Optional[ModelType]) -> Optional[ModelType]:
+        return await cls.safe_commit(model=model)
 
     @classmethod
     async def get_by_id(cls, id: int) -> Optional[ModelType]:
@@ -88,7 +95,7 @@ class BaseRepoORM(BaseRepo):
         return result.scalar()
 
     @classmethod
-    async def update_by_id(cls, id: int, params: dict, synchronize_session: SynchronizeSessionEnum = False) -> None:
+    async def update_by_id(cls, id: int, params: dict, synchronize_session: SynchronizeSessionEnum = False) -> int:
         query = (
             update(cls.model)
             .where(cls.model.id == id)
@@ -96,12 +103,14 @@ class BaseRepoORM(BaseRepo):
             .execution_options(synchronize_session=synchronize_session)
         )
         await cls.safe_commit(query)
+        return id
 
     @classmethod
-    async def delete_by_id(cls, id: int, synchronize_session: SynchronizeSessionEnum = False) -> None:
+    async def delete_by_id(cls, id: int, synchronize_session: SynchronizeSessionEnum = False) -> int:
         query = (
             delete(cls.model)
             .where(cls.model.id == id)
             .execution_options(synchronize_session=synchronize_session)
         )
         await cls.safe_commit(query)
+        return id
