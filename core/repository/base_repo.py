@@ -32,6 +32,16 @@ class BaseRepo(ABC):
 
     @classmethod
     @abstractmethod
+    async def filter_by(cls, params: dict) -> Optional[ModelType]:
+        pass
+
+    @classmethod
+    @abstractmethod
+    async def filter_by_list(cls, params: dict, limit: int = 10, offset: Optional[int] = None) -> Optional[ModelType]:
+        pass
+
+    @classmethod
+    @abstractmethod
     async def count_all(cls) -> int:
         pass
 
@@ -51,8 +61,8 @@ class BaseRepoORM(BaseRepo):
     async def safe_commit(cls, query: Any = None, model: Optional[ModelType] = None) -> Optional[ModelType]:
         try:
             if not ((query is None) is not (model is None)):
-                raise ValueError("Cannot commit query and model at the same time.")
-            if query:
+                raise ValueError("Safe commit error")
+            if query is not None:
                 await session.execute(query)
                 await session.commit()
             if model:
@@ -77,6 +87,26 @@ class BaseRepoORM(BaseRepo):
     @classmethod
     async def get_list(cls, limit: int = 10, offset: Optional[int] = None) -> List[ModelType]:
         query = select(cls.model)
+
+        if offset:
+            query = query.offset(offset * limit)
+
+        if limit > 100:
+            limit = 100
+
+        query = query.limit(limit)
+        result = await session.execute(query)
+        return result.scalars().all()
+
+    @classmethod
+    async def filter_by(cls, params: dict) -> Optional[ModelType]:
+        query = select(cls.model).filter_by(params)
+        result = await session.execute(query)
+        return result.scalar()
+
+    @classmethod
+    async def filter_by_list(cls, params: dict, limit: int = 10, offset: Optional[int] = None) -> Optional[ModelType]:
+        query = select(cls.model).filter_by(params)
 
         if offset:
             query = query.offset(offset * limit)
