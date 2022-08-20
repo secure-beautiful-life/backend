@@ -1,5 +1,5 @@
-from os import getenv
-from typing import Optional
+from os import getenv, path
+from typing import Optional, List
 from urllib.parse import quote
 
 
@@ -16,10 +16,18 @@ class Config:
                   f"{quote(getenv('DB_HOST'))}:{getenv('DB_PORT')}/{quote(getenv('DB_NAME'))}"
     JWT_SECRET_KEY: str = getenv("JWT_SECRET_KEY")
     JWT_ALGORITHM: str = getenv("JWT_ALGORITHM", "HS256")
-    JWT_ACCESS_TOKEN_EXPIRES: int = int(getenv("JWT_ACCESS_TOKEN_EXPIRES", "3600"))  # 1 hour
-    JWT_REFRESH_TOKEN_EXPIRES: int = int(getenv("JWT_REFRESH_TOKEN_EXPIRES", "2592000"))  # 30 days
+    JWT_ACCESS_TOKEN_EXPIRES: int = int(getenv("JWT_ACCESS_TOKEN_EXPIRES", "600"))  # 10 Minutes
+    JWT_REFRESH_TOKEN_EXPIRES: int = int(getenv("JWT_REFRESH_TOKEN_EXPIRES", "2592000"))  # 30 Days
     ADMIN_USERNAME: str = getenv("ADMIN_USERNAME")
     ADMIN_PASSWORD: str = getenv("ADMIN_PASSWORD")
+    MAX_LOGIN_ATTEMPT: int = 5
+    LOGIN_FORBIDDEN_TIME: int = 5  # 5 Minutes
+    BASE_DIR: str = path.dirname(path.dirname(path.abspath(__file__)))
+    MEDIA_DIR: str = path.join(BASE_DIR, "media")
+    USER_PROFILE_IMAGE_DIR: str = path.join(MEDIA_DIR, "user_profile_images")
+    USER_PROFILE_REVEAL_IMAGE_DIR: str = USER_PROFILE_IMAGE_DIR[USER_PROFILE_IMAGE_DIR.find("/media"):]
+    ALLOWED_IMAGE_TYPES: List[str] = ["PNG", "JPEG"]
+    MAX_IMAGE_SIZE: int = 1024 * 1024 * 10  # 10MB
 
 
 class LocalConfig(Config):

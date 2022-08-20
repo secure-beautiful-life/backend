@@ -100,13 +100,13 @@ class BaseRepoORM(BaseRepo):
 
     @classmethod
     async def filter_by(cls, params: dict) -> Optional[ModelType]:
-        query = select(cls.model).filter_by(params)
+        query = select(cls.model).filter_by(**params)
         result = await session.execute(query)
         return result.scalar()
 
     @classmethod
     async def filter_by_list(cls, params: dict, limit: int = 10, offset: Optional[int] = None) -> Optional[ModelType]:
-        query = select(cls.model).filter_by(params)
+        query = select(cls.model).filter_by(**params)
 
         if offset:
             query = query.offset(offset * limit)
