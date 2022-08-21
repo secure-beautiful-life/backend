@@ -10,7 +10,7 @@ class Product(Base, TimestampMixin):
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     category_id = Column(BigInteger, ForeignKey("category.id", ondelete='CASCADE'), nullable=False)
-    user_id = Column(BigInteger, ForeignKey("user.id"), nullable=False)
+    user_id = Column(BigInteger, ForeignKey("user.id", ondelete='CASCADE'), nullable=False)
     user = relationship("User", foreign_keys=[user_id], lazy="selectin")
 
     name = Column(Unicode(255), nullable=False)

@@ -19,6 +19,7 @@ class GetProductResponseSchema(BaseModel):
     price: int = Field(..., description="상품 가격")
     brand_name: str = Field(None, description="상품 브랜드 이름")
     detail_images: List[GetProductDetailImageResponseSchema] = Field(..., description="상품 디테일 이미지")
+    wish: bool = Field(False, description="상품 좋아요")
 
     class Config:
         orm_mode = True
@@ -32,6 +33,7 @@ class SimpleGetProductResponseSchema(BaseModel):
     name: str = Field(..., description="상품 이름")
     price: int = Field(..., description="상품 가격")
     brand_name: str = Field(None, description="상품 브랜드 이름")
+    wish: bool = Field(False, description="상품 좋아요")
 
     class Config:
         orm_mode = True

@@ -88,7 +88,7 @@ def product_models_to_entities(model_list: List[Type[Product]]) -> List[Type[Pro
     return [product_model_to_entity(model) for model in model_list]
 
 
-def product_model_to_detail_entity(model: Type[Product]) -> Type[Product]:
+def product_model_to_detail_entity(model: Type[Product], user_id: Optional[int] = None) -> Type[Product]:
     model.product_id = model.id
 
     if model.profile_image:
