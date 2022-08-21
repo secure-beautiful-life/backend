@@ -30,13 +30,13 @@ class ProductService:
 
     async def get_product_list_by_filter(self, limit: int = 10, offset: Optional[int] = None,
                                          category_id: Optional[int] = None) -> List[Product]:
-        return await self.product_repo.get_product_list_by_filter(limit=limit,
-                                                                  offset=offset,
-                                                                  category_id=category_id)
+        return await self.product_repo.get_product_list_by_filter_desc(limit=limit,
+                                                                       offset=offset,
+                                                                       category_id=category_id)
 
     async def get_product_list_search_autocomplete(self, limit: int = 10, offset: Optional[int] = None,
                                                    name: str = "") -> List[Product]:
-        return await self.product_repo.get_product_list_search_autocomplete(limit=limit, offset=offset, name=name)
+        return await self.product_repo.get_product_list_search_autocomplete_desc(limit=limit, offset=offset, name=name)
 
     async def get_product_filter_count(self, category_id: int = None) -> int:
         return await self.product_repo.get_product_filter_count(category_id=category_id)

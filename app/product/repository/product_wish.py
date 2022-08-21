@@ -1,4 +1,6 @@
-from sqlalchemy import delete, select
+from typing import Optional
+
+from sqlalchemy import delete, exists, select
 
 from app.product.model import ProductWish
 from core.db import session
@@ -28,3 +30,20 @@ class ProductWishRepo(BaseRepoORM):
         await cls.safe_commit(query)
 
         return {}
+
+    @classmethod
+    async def filter_by_list_desc(cls, params: dict, limit: int = 10, offset: Optional[int] = None):
+        query = select(cls.model).filter_by(**params)
+
+        if offset:
+            query = query.offset(offset * limit)
+
+        if limit > 100:
+            limit = 100
+
+        query = query.limit(limit)
+        query = query.order_by(cls.model.id.desc())
+
+        result = await session.execute(query)
+
+        return result.scalars().all()

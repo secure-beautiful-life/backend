@@ -13,8 +13,8 @@ class ProductRepo(BaseRepoORM):
     model = Product
 
     @classmethod
-    async def get_product_list_search_autocomplete(cls, limit: int = 10, offset: Optional[int] = None,
-                                                   name: str = "") -> List[Product]:
+    async def get_product_list_search_autocomplete_desc(cls, limit: int = 10, offset: Optional[int] = None,
+                                                        name: str = "") -> List[Product]:
         query = select(cls.model)
 
         if name:
@@ -27,6 +27,8 @@ class ProductRepo(BaseRepoORM):
             limit = 100
 
         query = query.limit(limit)
+        query = query.order_by(cls.model.id.desc())
+
         result = await session.execute(query)
 
         return result.scalars().all()
@@ -41,8 +43,8 @@ class ProductRepo(BaseRepoORM):
         return result.scalar()
 
     @classmethod
-    async def get_product_list_by_filter(cls, limit: int = 10, offset: Optional[int] = None,
-                                         category_id: Optional[int] = None) -> Optional[Product]:
+    async def get_product_list_by_filter_desc(cls, limit: int = 10, offset: Optional[int] = None,
+                                              category_id: Optional[int] = None) -> Optional[Product]:
         query = select(cls.model)
 
         if category_id:
@@ -55,6 +57,8 @@ class ProductRepo(BaseRepoORM):
             limit = 100
 
         query = query.limit(limit)
+        query = query.order_by(cls.model.id.desc())
+
         result = await session.execute(query)
 
         return result.scalars().all()
