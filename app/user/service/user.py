@@ -118,10 +118,9 @@ class UserService:
 
         await self.get_user_by_id(id=id)
 
-        user_profile = await self.profile_repo.get_by_id(id=id)
+        user_profile = await self.profile_repo.filter_by(params=dict(user_id=id))
         if user_profile:
-            await self.profile_repo.delete_by_id(id=id)
-        await self.info_repo.delete_by_id(id=id)
+            await self.delete_user_profile_by_user_id(user_id=id)
         return await self.user_repo.delete_by_id(id=id)
 
     async def create_user_profile_by_user_id(self, user_id: int, image_string: str, file_name: str) -> Optional[int]:
@@ -157,15 +156,15 @@ class UserService:
 
     async def delete_user_profile_by_user_id(self, user_id: int) -> Optional[int]:
         await self.get_user_by_id(id=user_id)
-        profile = await self.profile_repo.get_by_id(id=user_id)
+        profile = await self.profile_repo.filter_by(params=dict(user_id=user_id))
         if not profile:
-            raise NotFoundException(message="존재하지 않는 프로필 id입니다.")
+            raise NotFoundException(message="존재하지 않는 프로필입니다.")
 
         image_path = os.path.join(config.USER_PROFILE_IMAGE_DIR, profile.saved_name)
         if os.path.exists(image_path):
             os.remove(image_path)
 
-        return await self.profile_repo.delete_by_id(id=user_id)
+        return await self.profile_repo.delete_by_id(id=profile.id)
 
     async def login(self, username: str, password: str) -> dict:
         user = await self.user_repo.filter_by(params=dict(username=username))
