@@ -59,7 +59,7 @@ class GetUserResponseSchema(BaseModel):
 
 class GetUserListResponseSchema(BaseModel):
     total_length: int = Field(..., description="전체 리스트 길이")
-    users: List[GetUserResponseSchema]
+    content: List[GetUserResponseSchema]
 
 
 class UpdateUserPasswordRequestSchema(BaseModel):

@@ -37,7 +37,7 @@ class GetRoleResonseSchema(BaseModel):
 
 class GetRoleListResonseSchema(BaseModel):
     total_length: int = Field(..., description="전체 리스트 길이")
-    roles: List[GetRoleResonseSchema]
+    content: List[GetRoleResonseSchema]
 
 
 class UpdateRoleRequestSchema(BaseModel):
@@ -70,7 +70,7 @@ class GetResourceResponseSchema(BaseModel):
 
 class GetResourceListResponseSchema(BaseModel):
     total_length: int = Field(..., description="전체 리스트 길이")
-    resources: List[GetResourceResponseSchema]
+    content: List[GetResourceResponseSchema]
 
 
 class UpdateResourceRequestSchema(BaseModel):

@@ -71,7 +71,7 @@ async def get_role_list(
 ):
     return {
         "total_length": await AuthService().get_role_count(),
-        "roles": await AuthService().get_role_list(limit=limit, offset=offset)
+        "content": await AuthService().get_role_list(limit=limit, offset=offset)
     }
 
 
@@ -125,7 +125,7 @@ async def get_resource_list(
 ):
     return {
         "total_length": await AuthService().get_resource_count(),
-        "resources": resource_models_to_entities(await AuthService().get_resource_list(limit=limit, offset=offset))
+        "content": resource_models_to_entities(await AuthService().get_resource_list(limit=limit, offset=offset))
     }
 
 

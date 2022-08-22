@@ -63,7 +63,7 @@ async def get_user_list(
 ):
     return {
         "total_length": await UserService().get_user_count(),
-        "users": user_models_to_entities(await UserService().get_user_list(limit=limit, offset=offset))
+        "content": user_models_to_entities(await UserService().get_user_list(limit=limit, offset=offset))
     }
 
 
