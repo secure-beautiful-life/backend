@@ -8,7 +8,7 @@ class UserInfo(Base, TimestampMixin):
     __tablename__ = "user_info"
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
-    user_id = Column(BigInteger, ForeignKey("user.id"), unique=True, nullable=False)
+    user_id = Column(BigInteger, ForeignKey("user.id", ondelete="CASCADE"), unique=True, nullable=False)
     type = Column(Unicode(255), nullable=False)
     brand_name = Column(Unicode(255), unique=True)
     gender = Column(Unicode(255), nullable=False)
