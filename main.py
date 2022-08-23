@@ -38,16 +38,11 @@ def init_listeners(app_: FastAPI) -> None:
 
 
 def on_auth_error(request: Request, exc: Exception):
-    status_code = UnauthorizedException.code
-    error_code = UnauthorizedException.error_code
-    message = UnauthorizedException.message
-    raised_exception = exc.args[0] if len(exc.args) else None
-
-    if (hasattr(raised_exception, "code") and hasattr(raised_exception, "error_code")
-            and hasattr(raised_exception, "message")):
-        status_code = int(raised_exception.code)
-        error_code = raised_exception.error_code
-        message = raised_exception.message
+    custom_exception = exc.args[0] if len(exc.args) else None
+    status_code = int(custom_exception.code) if hasattr(custom_exception, "code") else UnauthorizedException.code
+    error_code = custom_exception.error_code if hasattr(custom_exception,
+                                                        "error_code") else UnauthorizedException.error_code
+    message = custom_exception.message if hasattr(custom_exception, "message") else UnauthorizedException.message
 
     return JSONResponse(
         status_code=status_code,
