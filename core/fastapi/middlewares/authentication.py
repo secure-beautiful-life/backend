@@ -14,8 +14,15 @@ from core.utils.token_helper import TokenHelper
 
 
 class AuthBackend(AuthenticationBackend):
+    def __init__(self):
+        self.authentication_white_list = ["/api/users/login"]
+
     async def authenticate(self, conn: HTTPConnection) -> Tuple[bool, Optional[CurrentUser]]:
         current_user = CurrentUser()
+
+        if conn.url.path in self.authentication_white_list:
+            return False, current_user
+
         authorization: str = conn.headers.get("Authorization")
         if not authorization:
             return False, current_user
