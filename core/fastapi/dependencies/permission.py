@@ -4,7 +4,7 @@ from fastapi.security.base import SecurityBase
 
 from app.auth.service import AuthService
 from core.exceptions import ForbiddenException
-from core.utils.url_matcher import UrlMatcher
+from core.utils import UrlMatcher
 
 
 class PermissionDependency(SecurityBase):

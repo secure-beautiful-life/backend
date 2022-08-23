@@ -10,7 +10,7 @@ from app.user.repository import UserRepo
 from core.exceptions import ExpiredTokenException, UnauthorizedException, InvalidTokenScopeException, \
     DecodeTokenException
 from core.fastapi.schemas import CurrentUser
-from core.utils.token_helper import TokenHelper
+from core.utils import TokenHelper
 
 
 class AuthBackend(AuthenticationBackend):
