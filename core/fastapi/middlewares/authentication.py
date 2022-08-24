@@ -1,20 +1,28 @@
 from typing import Optional, Tuple
 
-import jwt
-from starlette.authentication import AuthenticationBackend
+from starlette.authentication import AuthenticationBackend, AuthenticationError
 from starlette.middleware.authentication import (
     AuthenticationMiddleware as BaseAuthenticationMiddleware,
 )
 from starlette.requests import HTTPConnection
 
 from app.user.repository import UserRepo
+from core.exceptions import ExpiredTokenException, UnauthorizedException, InvalidTokenScopeException, \
+    DecodeTokenException
 from core.fastapi.schemas import CurrentUser
-from core.utils.token_helper import TokenHelper
+from core.utils import TokenHelper
 
 
 class AuthBackend(AuthenticationBackend):
+    def __init__(self):
+        self.authentication_white_list = ["/api/users/login"]
+
     async def authenticate(self, conn: HTTPConnection) -> Tuple[bool, Optional[CurrentUser]]:
         current_user = CurrentUser()
+
+        if conn.url.path in self.authentication_white_list:
+            return False, current_user
+
         authorization: str = conn.headers.get("Authorization")
         if not authorization:
             return False, current_user
@@ -32,10 +40,14 @@ class AuthBackend(AuthenticationBackend):
         try:
             decoded = TokenHelper.decode(token)
             if decoded.get("scope") != "access_token":
-                return False, current_user
+                raise AuthenticationError(InvalidTokenScopeException)
             user_id = decoded.get("user_id")
-        except jwt.exceptions.PyJWTError:
-            return False, current_user
+        except DecodeTokenException:
+            raise AuthenticationError(DecodeTokenException)
+        except ExpiredTokenException:
+            raise AuthenticationError(ExpiredTokenException)
+        except Exception:
+            raise AuthenticationError(UnauthorizedException)
 
         user = await UserRepo().get_by_id(id=user_id)
         if not user:
