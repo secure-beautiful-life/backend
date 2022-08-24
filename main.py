@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 
 from app import router
 from core.config import config
-from core.exceptions import CustomException, BadRequestException
+from core.exceptions import CustomException, BadRequestException, UnauthorizedException
 from core.fastapi.dependencies import PermissionDependency
 from core.fastapi.middlewares import (
     AuthenticationMiddleware,
@@ -38,11 +38,11 @@ def init_listeners(app_: FastAPI) -> None:
 
 
 def on_auth_error(request: Request, exc: Exception):
-    status_code, error_code, message = 401, None, str(exc)
-    if isinstance(exc, CustomException):
-        status_code = int(exc.code)
-        error_code = exc.error_code
-        message = exc.message
+    custom_exception = exc.args[0] if len(exc.args) else None
+    status_code = int(custom_exception.code) if hasattr(custom_exception, "code") else UnauthorizedException.code
+    error_code = custom_exception.error_code if hasattr(custom_exception,
+                                                        "error_code") else UnauthorizedException.error_code
+    message = custom_exception.message if hasattr(custom_exception, "message") else UnauthorizedException.message
 
     return JSONResponse(
         status_code=status_code,

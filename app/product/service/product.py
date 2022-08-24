@@ -1,15 +1,10 @@
-import os
-import uuid
-from base64 import b64decode
-from io import BytesIO
 from typing import Optional, List
-
-from PIL import Image
 
 from app.product.model import Product, ProductProfileImage, ProductDetailImage
 from app.product.repository import ProductRepo, ProductProfileImageRepo, ProductDetailImageRepo
 from core.config import config
 from core.exceptions import BadRequestException, ForbiddenException
+from core.utils import ImageHelper
 
 MAX_DETAIL_IMAGE_UPLOAD_SIZE = 5
 
@@ -49,8 +44,11 @@ class ProductService:
         if len(detail_images) > MAX_DETAIL_IMAGE_UPLOAD_SIZE:
             raise BadRequestException("상품 상세 이미지는 최대 5장까지 업로드 할 수 있습니다.")
 
-        image_size, image_type, saved_name = await self.upload_image(profile_image_string)
-        image_size_list, image_type_list, saved_name_list = await self.upload_images(detail_images)
+        image_size, image_type, saved_name = ImageHelper.upload_image(profile_image_string, config.PRODUCT_IMAGE_DIR)
+        image_size_list, image_type_list, saved_name_list = ImageHelper.upload_images(
+            detail_images,
+            config.PRODUCT_IMAGE_DIR
+        )
 
         product = await self.product_repo.save(
             Product(
@@ -123,39 +121,3 @@ class ProductService:
 
     def is_same_not_seller(self, user_id, product_id):
         return user_id != product_id
-
-    async def upload_image(self, image_string):
-        try:
-            image_string = image_string[image_string.find(",") + 1:]
-            image = Image.open(BytesIO(b64decode(image_string)))
-        except Exception:
-            raise BadRequestException(message="유효하지 않은 이미지입니다.")
-
-        image_type = image.format
-        if image_type not in config.ALLOWED_IMAGE_TYPES:
-            raise BadRequestException(message="허용되지 않은 이미지 형식입니다.")
-
-        buffer = BytesIO()
-        image.save(buffer, format=image_type)
-        image_size = buffer.tell()
-
-        if image_size > config.MAX_IMAGE_SIZE:
-            raise BadRequestException(message="이미지 크기가 허용치를 초과하였습니다.")
-
-        saved_name = f"{uuid.uuid4()}.{image_type}"
-        saved_path = os.path.join(config.PRODUCT_IMAGE_DIR, saved_name)
-
-        with open(saved_path, "wb") as f:
-            f.write(buffer.getbuffer().tobytes())
-
-        return image_size, image_type, saved_name
-
-    async def upload_images(self, detail_images):
-        image_size_list, image_type_list, saved_name_list = [], [], []
-
-        for detail_image in detail_images:
-            image_string, file_name = detail_image['image_string'], detail_image['file_name']
-            image_size, image_type, saved_name = await self.upload_image(image_string)
-            image_size_list.append(image_size), image_type_list.append(image_type), saved_name_list.append(saved_name)
-
-        return image_size_list, image_type_list, saved_name_list
