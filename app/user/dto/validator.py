@@ -42,6 +42,16 @@ def validate_type(type_: str) -> Optional[str]:
     return type_
 
 
+def validate_name(name: str) -> Optional[str]:
+    if not (2 <= len(name) <= 5):
+        raise ValueError("이름은 2자 이상 5자 이하여야 합니다.")
+
+    if not all((ord("가") <= ord(character) <= ord("힣")) for character in name):
+        raise ValueError("이름은 한글만 포함할 수 있습니다.")
+
+    return name
+
+
 def validate_brand_name(brand_name: str) -> Optional[str]:
     if not (2 <= len(brand_name) <= 10):
         raise ValueError("브랜드 이름은 2자 이상 10자 이하여야 합니다.")

@@ -56,6 +56,7 @@ def create_superuser(engine) -> None:
     ))
     safe_commit(session=session, model=UserInfo(
         user_id=1,
+        name="관리자",
         type="admin",
         gender="남성",
         email="admin@example.com",
