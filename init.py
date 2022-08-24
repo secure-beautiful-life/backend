@@ -9,12 +9,16 @@ from app.auth.model import AuthRole, AuthRoleHierarchy
 from app.user.model import User, UserInfo
 from core.config import config
 from core.db.session import Base
+from core.fastapi.middlewares.logger.model import RequestLog, ResponseLog
 
 
 def init_db() -> None:
+    _request_log = RequestLog
+    _response_log = ResponseLog
+
     db_url = f"mysql+pymysql://{quote(getenv('DB_USERNAME'))}:{quote(getenv('DB_PASSWORD'))}@" \
              f"{quote(getenv('DB_HOST'))}:{getenv('DB_PORT')}/{quote(getenv('DB_NAME'))}"
-    engine = create_engine(url=db_url, pool_recycle=3600)
+    engine = create_engine(url=db_url, pool_recycle=3600, echo=True)
     Base.metadata.create_all(engine)
     create_superuser(engine)
     engine.dispose()

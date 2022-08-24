@@ -15,6 +15,7 @@ from core.fastapi.middlewares import (
     AuthBackend,
     SQLAlchemyMiddleware,
 )
+from core.fastapi.middlewares.logger.service import LoggingMiddleware
 
 
 def init_routers(app_: FastAPI) -> None:
@@ -65,14 +66,15 @@ def make_middleware() -> List[Middleware]:
             backend=AuthBackend(),
             on_error=on_auth_error,
         ),
+        Middleware(LoggingMiddleware),
     ]
     return middleware
 
 
 def create_app() -> FastAPI:
     app_ = FastAPI(
-        title="FastAPI Test",
-        description="FastAPI Test API",
+        title="Beautiful Life",
+        description="Beautiful Life",
         version="0.1.0",
         docs_url=config.DOCS_URL,
         redoc_url=config.REDOC_URL,
