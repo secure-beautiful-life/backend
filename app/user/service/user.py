@@ -24,8 +24,9 @@ class UserService:
         self.info_repo = UserInfoRepo()
         self.profile_repo = UserProfileImageRepo()
 
-    async def create_user(self, username: str, password: str, role_id: int, type_: str, gender: str, email: str,
-                          phone: str, address: str, brand_name: Optional[str] = None, **kwargs) -> Optional[int]:
+    async def create_user(self, username: str, password: str, role_id: int, name: str, type_: str, gender: str,
+                          email: str, phone: str, address: str, brand_name: Optional[str] = None, **kwargs) \
+            -> Optional[int]:
         if await self.user_repo.filter_by(params=dict(username=username)):
             raise DuplicatedDataException(message="이미 존재하는 아이디입니다.")
 
@@ -54,6 +55,7 @@ class UserService:
         await self.info_repo.save(
             model=UserInfo(
                 user_id=user.id,
+                name=name,
                 type=type_,
                 brand_name=brand_name,
                 gender=gender,
