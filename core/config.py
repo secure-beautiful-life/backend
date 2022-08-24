@@ -28,6 +28,8 @@ class Config:
     USER_PROFILE_REVEAL_IMAGE_DIR: str = USER_PROFILE_IMAGE_DIR[USER_PROFILE_IMAGE_DIR.find("/media"):]
     ALLOWED_IMAGE_TYPES: List[str] = ["PNG", "JPEG"]
     MAX_IMAGE_SIZE: int = 1024 * 1024 * 10  # 10MB
+    PRODUCT_IMAGE_DIR: str = path.join(MEDIA_DIR, "product_images")
+    PRODUCT_REVEAL_IMAGE_DIR: str = PRODUCT_IMAGE_DIR[PRODUCT_IMAGE_DIR.find("/media"):]
 
 
 class LocalConfig(Config):
