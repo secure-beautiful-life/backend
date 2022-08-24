@@ -1,13 +1,9 @@
 import os
-import uuid
-from base64 import b64decode
 from datetime import datetime, timedelta
-from io import BytesIO
 from typing import Optional, Type, List
 from zoneinfo import ZoneInfo
 
 import bcrypt
-from PIL import Image
 
 from app.auth.service import AuthService
 from app.user.model import User, UserInfo, UserProfileImage
@@ -19,7 +15,7 @@ from core.exceptions import (
     DuplicatedDataException,
     UserAuthenticationFailedException, UserLoginForbiddenException
 )
-from core.utils.token_helper import TokenHelper
+from core.utils import TokenHelper, ImageHelper
 
 
 class UserService:
@@ -126,28 +122,7 @@ class UserService:
     async def create_user_profile_by_user_id(self, user_id: int, image_string: str, file_name: str) -> Optional[int]:
         await self.get_user_by_id(id=user_id)
 
-        try:
-            image_string = image_string[image_string.find(",") + 1:]
-            image = Image.open(BytesIO(b64decode(image_string)))
-        except Exception:
-            raise BadRequestException(message="유효하지 않은 이미지입니다.")
-
-        image_type = image.format
-        if image_type not in config.ALLOWED_IMAGE_TYPES:
-            raise BadRequestException(message="허용되지 않은 이미지 형식입니다.")
-
-        buffer = BytesIO()
-        image.save(buffer, format=image_type)
-        image_size = buffer.tell()
-
-        if image_size > config.MAX_IMAGE_SIZE:
-            raise BadRequestException(message="이미지 크기가 허용치를 초과하였습니다.")
-
-        saved_name = f"{uuid.uuid4()}.{image_type}"
-        saved_path = os.path.join(config.USER_PROFILE_IMAGE_DIR, saved_name)
-
-        with open(saved_path, "wb") as f:
-            f.write(buffer.getbuffer().tobytes())
+        image_size, image_type, saved_name = ImageHelper.upload_image(image_string, config.USER_PROFILE_IMAGE_DIR)
 
         created_object = await self.profile_repo.save(
             model=UserProfileImage(user_id=user_id, uploaded_name=file_name, saved_name=saved_name, size=image_size,
