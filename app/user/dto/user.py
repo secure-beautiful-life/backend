@@ -12,7 +12,7 @@ from .validator import (
     validate_gender,
     validate_email,
     validate_phone,
-    validate_address
+    validate_address, validate_file_name
 )
 
 
@@ -87,6 +87,8 @@ class UpdateUserInfoRequestSchema(BaseModel):
 class CreateUserProfileImageRequestSchema(BaseModel):
     image_string: str = Field(..., description="이미지 파일 base64 string")
     file_name: str = Field(..., description="파일명")
+
+    _validate_file_name = validator("file_name", allow_reuse=True)(validate_file_name)
 
 
 class UserLoginRequestSchema(BaseModel):
