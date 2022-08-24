@@ -22,14 +22,16 @@ class Config:
     ADMIN_PASSWORD: str = getenv("ADMIN_PASSWORD")
     MAX_LOGIN_ATTEMPT: int = 5
     LOGIN_FORBIDDEN_TIME: int = 5  # 5 Minutes
+    ALLOWED_IMAGE_TYPES: List[str] = ["PNG", "JPEG"]
+    MAX_IMAGE_SIZE: int = 1024 * 1024 * 10  # 10MB
     BASE_DIR: str = path.dirname(path.dirname(path.abspath(__file__)))
     MEDIA_DIR: str = path.join(BASE_DIR, "media")
     USER_PROFILE_IMAGE_DIR: str = path.join(MEDIA_DIR, "user_profile_images")
     USER_PROFILE_REVEAL_IMAGE_DIR: str = USER_PROFILE_IMAGE_DIR[USER_PROFILE_IMAGE_DIR.find("/media"):]
-    ALLOWED_IMAGE_TYPES: List[str] = ["PNG", "JPEG"]
-    MAX_IMAGE_SIZE: int = 1024 * 1024 * 10  # 10MB
     PRODUCT_IMAGE_DIR: str = path.join(MEDIA_DIR, "product_images")
     PRODUCT_REVEAL_IMAGE_DIR: str = PRODUCT_IMAGE_DIR[PRODUCT_IMAGE_DIR.find("/media"):]
+    REVIEW_IMAGE_DIR: str = path.join(MEDIA_DIR, "review_images")
+    REVIEW_REVEAL_IMAGE_DIR: str = REVIEW_IMAGE_DIR[REVIEW_IMAGE_DIR.find("/media"):]
 
 
 class LocalConfig(Config):
