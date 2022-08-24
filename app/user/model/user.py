@@ -29,6 +29,7 @@ class User(Base, TimestampMixin):
 def user_model_to_entity(model: Type[User]) -> Type[User]:
     info = model.info[0]
     model.role_name = model.role.name
+    model.name = info.name
     model.type = info.type
     model.gender = info.gender
     model.email = info.email
