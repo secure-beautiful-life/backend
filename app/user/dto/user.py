@@ -7,11 +7,12 @@ from .validator import (
     validate_username,
     validate_password,
     validate_type,
+    validate_name,
     validate_brand_name,
     validate_gender,
     validate_email,
     validate_phone,
-    validate_address
+    validate_address, validate_file_name
 )
 
 
@@ -20,6 +21,7 @@ class CreateUserRequestSchema(BaseModel):
     password: str = Field(..., description="비밀번호")
     password_check: str = Field(..., description="비밀번호 확인")
     role_id: int = Field(..., description="역할 id")
+    name: str = Field(..., description="회원 이름")
     type: str = Field(..., description="회원 종류")
     brand_name: str = Field(None, description="브랜드 이름")
     gender: str = Field(..., description="성별")
@@ -29,6 +31,7 @@ class CreateUserRequestSchema(BaseModel):
 
     _validate_username = validator("username", allow_reuse=True)(validate_username)
     _validate_password = validator("password_check", allow_reuse=True)(validate_password)
+    _validate_name = validator("name", allow_reuse=True)(validate_name)
     _validate_type = validator("type", allow_reuse=True)(validate_type)
     _validate_brand_name = validator("brand_name", allow_reuse=True)(validate_brand_name)
     _validate_gender = validator("gender", allow_reuse=True)(validate_gender)
@@ -44,6 +47,7 @@ class GetUserResponseSchema(BaseModel):
     profile_image_url: str = Field(None, description="프로필 사진 주소")
     role_id: int = Field(..., description="역할 id")
     role_name: str = Field(..., description="역할 이름")
+    name: str = Field(..., description="회원 이름")
     type: str = Field(..., description="회원 종류")
     brand_name: str = Field(None, description="브랜드 이름")
     gender: str = Field(..., description="성별")
@@ -83,6 +87,8 @@ class UpdateUserInfoRequestSchema(BaseModel):
 class CreateUserProfileImageRequestSchema(BaseModel):
     image_string: str = Field(..., description="이미지 파일 base64 string")
     file_name: str = Field(..., description="파일명")
+
+    _validate_file_name = validator("file_name", allow_reuse=True)(validate_file_name)
 
 
 class UserLoginRequestSchema(BaseModel):

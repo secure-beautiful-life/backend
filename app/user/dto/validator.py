@@ -3,6 +3,13 @@ from html import escape
 from typing import Optional
 
 
+def validate_file_name(file_name: str) -> Optional[str]:
+    if not (2 <= len(file_name) <= 50):
+        raise ValueError("파일명은 2자 이상 50자 이하여야 합니다.")
+
+    return escape(file_name)
+
+
 def validate_username(username: str) -> Optional[str]:
     if not (4 <= len(username) <= 10):
         raise ValueError("아이디는 4자 이상 10자 이하여야 합니다.")
@@ -40,6 +47,16 @@ def validate_type(type_: str) -> Optional[str]:
         raise ValueError("회원 종류가 올바르지 않습니다.")
 
     return type_
+
+
+def validate_name(name: str) -> Optional[str]:
+    if not (2 <= len(name) <= 5):
+        raise ValueError("이름은 2자 이상 5자 이하여야 합니다.")
+
+    if not all((ord("가") <= ord(character) <= ord("힣")) for character in name):
+        raise ValueError("이름은 한글만 포함할 수 있습니다.")
+
+    return name
 
 
 def validate_brand_name(brand_name: str) -> Optional[str]:

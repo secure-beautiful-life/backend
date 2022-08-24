@@ -1,3 +1,4 @@
+from html import escape
 from typing import Optional
 
 
@@ -6,6 +7,13 @@ def validate_name(name: str) -> Optional[str]:
         raise ValueError("상품 이름은 2자 이상 20자 이하여야 합니다.")
 
     return name
+
+
+def validate_file_name(file_name: str) -> Optional[str]:
+    if not (2 <= len(file_name) <= 50):
+        raise ValueError("파일명은 2자 이상 50자 이하여야 합니다.")
+
+    return escape(file_name)
 
 
 def validate_price(price: int) -> Optional[int]:

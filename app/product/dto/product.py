@@ -2,7 +2,7 @@ from typing import List
 
 from pydantic import BaseModel, Field, validator
 
-from .validator import validate_name, validate_price, validate_stock_quantity
+from .validator import validate_name, validate_price, validate_stock_quantity, validate_file_name
 
 
 class GetProductDetailImageResponseSchema(BaseModel):
@@ -48,6 +48,8 @@ class CreateDetailImageSchema(BaseModel):
     image_string: str = Field(..., description="상품 상세 이미지")
     file_name: str = Field(..., description="상품 상세 이미지 파일 이름")
 
+    _validate_file_name = validator("file_name", allow_reuse=True)(validate_file_name)
+
 
 class CreateProductRequestSchema(BaseModel):
     category_id: int = Field(..., description="카테고리 아이디")
@@ -58,6 +60,7 @@ class CreateProductRequestSchema(BaseModel):
     stock_quantity: int = Field(..., description="재고 수량")
     detail_images: List[CreateDetailImageSchema] = Field(..., description="상품 상세 이미지")
 
+    _validate_profile_file_name = validator("profile_file_name", allow_reuse=True)(validate_file_name)
     _validate_name = validator("name", allow_reuse=True)(validate_name)
     _validate_price = validator("price", allow_reuse=True)(validate_price)
     _validate_stock_quantity = validator("stock_quantity", allow_reuse=True)(validate_stock_quantity)
