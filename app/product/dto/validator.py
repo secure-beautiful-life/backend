@@ -2,7 +2,14 @@ from html import escape
 from typing import Optional
 
 
-def validate_name(name: str) -> Optional[str]:
+def validate_category_name(name: str) -> Optional[str]:
+    if not (2 <= len(name) <= 15):
+        raise ValueError("카테고리 이름은 2자 이상 15자 이하여야 합니다.")
+
+    return name
+
+
+def validate_product_name(name: str) -> Optional[str]:
     if not (2 <= len(name) <= 20):
         raise ValueError("상품 이름은 2자 이상 20자 이하여야 합니다.")
 

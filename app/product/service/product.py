@@ -2,6 +2,7 @@ from typing import Optional, List
 
 from app.product.model import Product, ProductProfileImage, ProductDetailImage
 from app.product.repository import ProductRepo, ProductProfileImageRepo, ProductDetailImageRepo
+from app.user.service import UserService
 from core.config import config
 from core.exceptions import BadRequestException, ForbiddenException
 from core.utils import ImageHelper
@@ -41,6 +42,8 @@ class ProductService:
 
     async def create_product(self, user_id: int, category_id: int, profile_image_string: str, profile_file_name: str,
                              name: str, price: int, stock_quantity: int, detail_images) -> int:
+        await UserService().get_user_by_id(user_id)
+
         if len(detail_images) > MAX_DETAIL_IMAGE_UPLOAD_SIZE:
             raise BadRequestException("상품 상세 이미지는 최대 5장까지 업로드 할 수 있습니다.")
 
@@ -88,6 +91,8 @@ class ProductService:
 
     async def update_product(self, user_id: int, product_id: int, name: Optional[str] = None,
                              price: Optional[int] = None):
+        await UserService().get_user_by_id(user_id)
+
         product = await self.product_repo.get_by_id(id=product_id)
 
         if self.has_not_product(product):
@@ -106,6 +111,8 @@ class ProductService:
         return await self.product_repo.update_by_id(product_id, params=params)
 
     async def delete_product(self, user_id: int, product_id: int):
+        await UserService().get_user_by_id(user_id)
+
         product = await self.product_repo.get_by_id(id=product_id)
 
         if self.has_not_product(product):
