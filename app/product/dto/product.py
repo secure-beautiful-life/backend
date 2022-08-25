@@ -59,6 +59,8 @@ class CreateProductRequestSchema(BaseModel):
     price: int = Field(..., description="상품 가격")
     stock_quantity: int = Field(..., description="재고 수량")
     detail_images: List[CreateDetailImageSchema] = Field(..., description="상품 상세 이미지")
+    beauty_image_string: str = Field(..., description="뷰티에 사용할 파일 이미지")
+    beauty_file_name: str = Field(..., description="뷰티에 사용할 파일 이름")
 
     _validate_profile_file_name = validator("profile_file_name", allow_reuse=True)(validate_file_name)
     _validate_name = validator("name", allow_reuse=True)(validate_product_name)
