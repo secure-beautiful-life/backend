@@ -32,6 +32,7 @@ class Config:
     PRODUCT_REVEAL_IMAGE_DIR: str = PRODUCT_IMAGE_DIR[PRODUCT_IMAGE_DIR.find("/media"):]
     REVIEW_IMAGE_DIR: str = path.join(MEDIA_DIR, "review_images")
     REVIEW_REVEAL_IMAGE_DIR: str = REVIEW_IMAGE_DIR[REVIEW_IMAGE_DIR.find("/media"):]
+    BEAUTY_IMAGE_DIR: str = path.join(MEDIA_DIR, "beauty_images")
 
 
 class LocalConfig(Config):

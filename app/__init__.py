@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
 from app.auth.router import auth_router
+from app.beauty.router import beauty_router
 from app.cart.router import cart_router
 from app.order.router import order_router
 from app.product.router import category_router, product_router, product_wish_router
@@ -16,5 +17,6 @@ router.include_router(product_wish_router, prefix="/api/wishes", tags=["Wish"])
 router.include_router(cart_router, prefix="/api/carts", tags=["Cart"])
 router.include_router(order_router, prefix="/api/orders", tags=["Order"])
 router.include_router(review_router, prefix="/api/reviews", tags=["Review"])
+router.include_router(beauty_router, prefix="/api/beauties", tags=["Beauty"])
 
 __all__ = ["router"]
