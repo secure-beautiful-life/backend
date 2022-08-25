@@ -93,7 +93,7 @@ class ProductService:
                 )
             )
 
-        await self.product_beuaty_image_repo.save(
+        await self.product_beauty_image_repo.save(
             ProductBeautyImage(
                 product_id=product_id,
                 uploaded_name=beauty_file_name,
