@@ -28,7 +28,7 @@ class BeautyService:
     async def create_beauty(self, user_id: int, product_id: int):
         user = await UserService().get_user_by_id(user_id)
         product = await ProductService().get_product_by_id(product_id)
-        saved_name = self.makeup(user.profile_image.saved_name, product.beauty_image.saved_name)
+        saved_name = self.makeup(user.profile_image.saved_name, product.beauty_image.saved_name) + ".png"
         file_path = config.BEAUTY_IMAGE_DIR
 
         beauty = await self.beauty_repo.save(
