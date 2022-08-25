@@ -99,6 +99,22 @@ class BaseRepoORM(BaseRepo):
         return result.scalars().all()
 
     @classmethod
+    async def get_list_desc(cls, limit: int = 10, offset: Optional[int] = None) -> List[ModelType]:
+        query = select(cls.model)
+
+        if offset:
+            query = query.offset(offset * limit)
+
+        if limit > 100:
+            limit = 100
+
+        query = query.limit(limit)
+        query = query.order_by(cls.model.id.desc())
+
+        result = await session.execute(query)
+        return result.scalars().all()
+
+    @classmethod
     async def filter_by(cls, params: dict) -> Optional[ModelType]:
         query = select(cls.model).filter_by(**params)
         result = await session.execute(query)

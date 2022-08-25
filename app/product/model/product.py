@@ -20,3 +20,5 @@ class Product(Base, TimestampMixin):
                                  backref=backref("product_profile_image", uselist=False), lazy="selectin")
     detail_image = relationship("ProductDetailImage", cascade="all, delete-orphan",
                                 backref=backref("product_detail_image", uselist=False), lazy="selectin")
+    beauty_image = relationship("ProductBeautyImage", cascade="all, delete-orphan",
+                                backref=backref("product_beauty_image", uselist=False), lazy="selectin")
