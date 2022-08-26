@@ -3,6 +3,8 @@ from typing import List
 from pydantic import BaseModel, Field, validator
 
 from .validator import validate_amount
+from ...product.dto import SimpleGetProductResponseSchema
+from ...product.model import Product
 
 
 class CreateCartRequestSchema(BaseModel):
@@ -17,6 +19,7 @@ class GetCartResponseSchema(BaseModel):
     user_id: int = Field(..., description="User ID")
     product_id: int = Field(..., description="Product ID")
     amount: int = Field(..., description="상품 수량")
+    product: SimpleGetProductResponseSchema = Field(..., description="상품")
 
     class Config:
         orm_mode = True

@@ -2,7 +2,8 @@ from typing import List
 
 from pydantic import BaseModel, Field, validator
 
-from .validator import validate_name, validate_price, validate_stock_quantity, validate_file_name
+from .validator import validate_product_name, validate_price, validate_stock_quantity, validate_file_name, \
+    validate_email
 
 
 class GetProductDetailImageResponseSchema(BaseModel):
@@ -59,9 +60,11 @@ class CreateProductRequestSchema(BaseModel):
     price: int = Field(..., description="상품 가격")
     stock_quantity: int = Field(..., description="재고 수량")
     detail_images: List[CreateDetailImageSchema] = Field(..., description="상품 상세 이미지")
+    beauty_image_string: str = Field(..., description="뷰티에 사용할 파일 이미지")
+    beauty_file_name: str = Field(..., description="뷰티에 사용할 파일 이름")
 
     _validate_profile_file_name = validator("profile_file_name", allow_reuse=True)(validate_file_name)
-    _validate_name = validator("name", allow_reuse=True)(validate_name)
+    _validate_name = validator("name", allow_reuse=True)(validate_product_name)
     _validate_price = validator("price", allow_reuse=True)(validate_price)
     _validate_stock_quantity = validator("stock_quantity", allow_reuse=True)(validate_stock_quantity)
 
@@ -70,5 +73,12 @@ class UpdateProductRequestSchema(BaseModel):
     name: str = Field(..., description="상품 이름")
     price: int = Field(..., description="상품 가격")
 
-    _validate_name = validator("name", allow_reuse=True)(validate_name)
+    _validate_name = validator("name", allow_reuse=True)(validate_product_name)
     _validate_price = validator("price", allow_reuse=True)(validate_price)
+
+
+class SendEmailRequestSchema(BaseModel):
+    destination: str = Field(..., description="수신자 메일 주소")
+    image_string: str = Field(..., description="이미지")
+
+    _validate_email = validator("destination", allow_reuse=True)(validate_email)
