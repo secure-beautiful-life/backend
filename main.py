@@ -70,7 +70,7 @@ def make_middleware() -> List[Middleware]:
             backend=AuthBackend(),
             on_error=on_auth_error,
         ),
-        Middleware(LoggingMiddleware),
+        # Middleware(LoggingMiddleware),
     ]
     return middleware
 

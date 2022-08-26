@@ -3,8 +3,8 @@ import argparse
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--checkpoint_pattern", default="./checkpoints/pattern.pth", type=str)
-    parser.add_argument("--checkpoint_color", default="./checkpoints/color.pth", type=str)
+    parser.add_argument("--checkpoint_pattern", default="./CPM/checkpoints/pattern.pth", type=str)
+    parser.add_argument("--checkpoint_color", default="./CPM/checkpoints/color.pth", type=str)
     parser.add_argument("--device", default="cuda", type=str)
     # parser.add_argument('--batch_size', default = '1', type = int)
     parser.add_argument("--prn", default=True, type=bool)

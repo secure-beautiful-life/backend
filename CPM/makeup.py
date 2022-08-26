@@ -64,7 +64,7 @@ class Makeup:
         self.face_mask = np.squeeze(face_mask > 0).astype(np.float32)
         self.weights, self.dst_triangle_buffer = prepare_tri_weights(self.vertices.T, self.triangles.T, self.h, self.w)
 
-        uv_face_eye = np.array(Image.open("./PRNet/uv-data/uv_face_eyes.png"))[:, :, :3] / 255
+        uv_face_eye = np.array(Image.open("./CPM/PRNet/uv-data/uv_face_eyes.png"))[:, :, :3] / 255
         new_colors = self.prn.get_colors_from_texture(uv_face_eye)
         new_colors = (new_colors > 0).astype("uint8")
         mask_out_eye = render_by_tri(
