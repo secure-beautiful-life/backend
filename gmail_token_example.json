@@ -1,0 +1,11 @@
+{
+  "token": "REDACTED",
+  "refresh_token": "REDACTED",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "client_id": "REDACTED",
+  "client_secret": "REDACTED",
+  "scopes": [
+    "https://mail.google.com/"
+  ],
+  "expiry": "2022-06-13T16:25:05.516893Z"
+}
