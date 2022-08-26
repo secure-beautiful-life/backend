@@ -1,4 +1,3 @@
-import os
 import uuid
 from typing import Optional
 
@@ -8,6 +7,10 @@ from app.product.service import ProductService
 from app.user.service import UserService
 from core.config import config
 from core.exceptions import ForbiddenException
+import os
+import subprocess
+import random
+import shutil
 
 import os
 import subprocess
@@ -56,12 +59,11 @@ class BeautyService:
         if user_id != beauty.user_id:
             raise ForbiddenException("본인의 가상 뷰티 이미지만 삭제할 수 있습니다.")
 
-        await self.beauty_repo.delete_by_id(beauty.id)
+        self.beauty_repo.delete_by_id(beauty.id)
 
     def makeup(self, product_file_name, profile_file_name):
         cmd = f'CUDA_VISIBLE_DEVICES=0 /home/hbk/anaconda3/envs/cpm/bin/python3.7 ./CPM/main.py  ' \
               f'--style {config.PRODUCT_IMAGE_DIR}/{product_file_name} ' \
               f'--input {config.USER_PROFILE_IMAGE_DIR}/{profile_file_name} ' \
               f'--savedir {config.BEAUTY_IMAGE_DIR}'
-
         process = subprocess.Popen(cmd,stdout=subprocess.PIPE, shell=True)
