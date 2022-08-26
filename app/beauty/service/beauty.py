@@ -12,6 +12,11 @@ import subprocess
 import random
 import shutil
 
+import os
+import subprocess
+import random
+import shutil
+
 
 class BeautyService:
     def __init__(self):
@@ -61,5 +66,4 @@ class BeautyService:
               f'--style {config.PRODUCT_IMAGE_DIR}/{product_file_name} ' \
               f'--input {config.USER_PROFILE_IMAGE_DIR}/{profile_file_name} ' \
               f'--savedir {config.BEAUTY_IMAGE_DIR}'
-
         process = subprocess.Popen(cmd,stdout=subprocess.PIPE, shell=True)
