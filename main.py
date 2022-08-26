@@ -1,10 +1,12 @@
+from os import path
 from typing import List
 
 from fastapi import FastAPI, Request, Depends
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
 from app import router
 from core.config import config
@@ -20,6 +22,8 @@ from core.fastapi.middlewares.logger.service import LoggingMiddleware
 
 def init_routers(app_: FastAPI) -> None:
     app_.include_router(router, dependencies=[Depends(PermissionDependency())])
+    app_.mount("/media", StaticFiles(directory=path.join(config.BASE_DIR, "media")), name="media")
+    app_.mount("/static", StaticFiles(directory=path.join(config.BASE_DIR, "templates", "static")), name="static")
 
 
 def init_listeners(app_: FastAPI) -> None:
@@ -86,6 +90,17 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
+
+
+@app.get("/{full_path:path}")
+async def render_spa(full_path: str):
+    index_html_path = path.join(config.BASE_DIR, "templates", "index.html")
+
+    with open(index_html_path, "rt", encoding="UTF-8") as f:
+        index_html = f.read()
+
+    return HTMLResponse(content=index_html, status_code=200)
+
 
 if __name__ == "__main__":
     import uvicorn
