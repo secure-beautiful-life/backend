@@ -1,8 +1,10 @@
-from typing import Optional
+import os
+from typing import Optional, Type, List
 
 from sqlalchemy import delete, exists, select
 
 from app.product.model import ProductWish
+from core.config import config
 from core.db import session
 from core.repository import BaseRepoORM
 from core.repository.enum import SynchronizeSessionEnum
@@ -47,3 +49,16 @@ class ProductWishRepo(BaseRepoORM):
         result = await session.execute(query)
 
         return result.scalars().all()
+
+
+def wish_models_to_entities(model_list: List[Type[ProductWish]]) -> List[Type[ProductWish]]:
+    return [wish_model_to_detail_entity(model) for model in model_list]
+
+
+def wish_model_to_detail_entity(model: Type[ProductWish], user_id: Optional[int] = None) -> Type[ProductWish]:
+    model.product.product_id = model.product.id
+    model.product.profile_image_name = model.product.profile_image[0].uploaded_name
+    model.product.profile_image_url = model.product.profile_image[0].saved_name
+    model.product.brand_name = model.product.user.info[0].brand_name
+
+    return model

@@ -2,7 +2,8 @@ from typing import List
 
 from pydantic import BaseModel, Field, validator
 
-from .validator import validate_product_name, validate_price, validate_stock_quantity, validate_file_name
+from .validator import validate_product_name, validate_price, validate_stock_quantity, validate_file_name, \
+    validate_email
 
 
 class GetProductDetailImageResponseSchema(BaseModel):
@@ -74,3 +75,10 @@ class UpdateProductRequestSchema(BaseModel):
 
     _validate_name = validator("name", allow_reuse=True)(validate_product_name)
     _validate_price = validator("price", allow_reuse=True)(validate_price)
+
+
+class SendEmailRequestSchema(BaseModel):
+    destination: str = Field(..., description="수신자 메일 주소")
+    image_string: str = Field(..., description="이미지")
+
+    _validate_email = validator("destination", allow_reuse=True)(validate_email)

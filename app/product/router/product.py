@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Path, Query, Request
 
-from app.product.dto import CreateProductRequestSchema, UpdateProductRequestSchema, SimpleGetProductListResponseSchema, \
-    GetProductResponseSchema
+from app.product.dto import CreateProductRequestSchema, UpdateProductRequestSchema, \
+    SimpleGetProductListResponseSchema, \
+    GetProductResponseSchema, SendEmailRequestSchema
 from app.product.repository import product_models_to_entities, product_model_to_detail_entity
 from app.product.service import ProductService, ProductWishService
 from core.dtos import DefaultOpenAPIResponseSchema, RequestSuccessResponseSchema
@@ -118,4 +119,16 @@ async def delete_product(
 ):
     await ProductService().delete_product(user_id=base_request.user.id, product_id=product_id)
 
+    return {}
+
+
+@product_router.post(
+    "/email",
+    response_model=RequestSuccessResponseSchema,
+    responses=DefaultOpenAPIResponseSchema.model
+)
+def create_product(
+        request: SendEmailRequestSchema
+):
+    ProductService().send_product_image_to_email(**request.dict())
     return {}

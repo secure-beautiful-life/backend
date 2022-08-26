@@ -18,13 +18,15 @@ class Config:
     JWT_ALGORITHM: str = getenv("JWT_ALGORITHM", "HS256")
     JWT_ACCESS_TOKEN_EXPIRES: int = int(getenv("JWT_ACCESS_TOKEN_EXPIRES", "600"))  # 10 Minutes
     JWT_REFRESH_TOKEN_EXPIRES: int = int(getenv("JWT_REFRESH_TOKEN_EXPIRES", "2592000"))  # 30 Days
+    AMDIN_GMAIL: str = getenv("AMDIN_GMAIL")
+    BASE_DIR: str = path.dirname(path.dirname(path.abspath(__file__)))
+    GMAIL_TOKEN_PATH: str = path.join(BASE_DIR, "gmail_token.json")
     ADMIN_USERNAME: str = getenv("ADMIN_USERNAME")
     ADMIN_PASSWORD: str = getenv("ADMIN_PASSWORD")
     MAX_LOGIN_ATTEMPT: int = 5
     LOGIN_FORBIDDEN_TIME: int = 5  # 5 Minutes
-    ALLOWED_IMAGE_TYPES: List[str] = ["PNG", "JPEG"]
+    ALLOWED_IMAGE_TYPES: List[str] = ["PNG"]
     MAX_IMAGE_SIZE: int = 1024 * 1024 * 10  # 10MB
-    BASE_DIR: str = path.dirname(path.dirname(path.abspath(__file__)))
     MEDIA_DIR: str = path.join(BASE_DIR, "media")
     USER_PROFILE_IMAGE_DIR: str = path.join(MEDIA_DIR, "user_profile_images")
     USER_PROFILE_REVEAL_IMAGE_DIR: str = USER_PROFILE_IMAGE_DIR[USER_PROFILE_IMAGE_DIR.find("/media"):]

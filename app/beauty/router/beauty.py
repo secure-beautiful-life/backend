@@ -30,16 +30,14 @@ async def get_beauty(
 
 @beauty_router.post(
     "",
-    response_model=RequestSuccessResponseSchema,
+    # response_model=RequestSuccessResponseSchema,
     responses=DefaultOpenAPIResponseSchema.model,
 )
 async def create_beauty(
         base_request: Request,
         request: CreateBeautySchema,
 ):
-    await BeautyService().create_beauty(user_id=base_request.user.id, **request.dict())
-
-    return {}
+    return await BeautyService().create_beauty(user_id=base_request.user.id, **request.dict())
 
 
 @beauty_router.delete(

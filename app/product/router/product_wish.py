@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 
-from app.product.dto import ProductWishRequestSchema, GetProductResponseSchema
-from app.product.repository import product_model_to_detail_entity
+from app.product.dto import ProductWishRequestSchema, GetProductResponseSchema, GetWishListResponseSchema
+from app.product.repository import product_model_to_detail_entity, wish_models_to_entities
 from core.dtos import DefaultOpenAPIResponseSchema
 from app.product.service import ProductWishService
 
@@ -10,13 +10,14 @@ product_wish_router = APIRouter()
 
 @product_wish_router.get(
     "",
-    responses=DefaultOpenAPIResponseSchema.model
+    responses=DefaultOpenAPIResponseSchema.model,
+    response_model=GetWishListResponseSchema
 )
 async def get_wish_list(
         base_request: Request,
 ):
     return {
-        "content": await ProductWishService().get_wish_list(base_request.user.id)
+        "content": wish_models_to_entities(await ProductWishService().get_wish_list(base_request.user.id))
     }
 
 
