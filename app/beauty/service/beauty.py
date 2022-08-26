@@ -65,3 +65,5 @@ class BeautyService:
         os.system(cmd)
 
         return random_file_name
+
+
