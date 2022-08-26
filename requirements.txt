@@ -1,48 +1,34 @@
-aiomysql @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/83/2e/5a/72cd1086572a6ac86f80ccce7715b05b69553de8974050f17ae8c22d70/aiomysql-0.1.1-py3-none-any.whl
-anyio @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/0c/d5/43/4fc9337721753aedb8e75e6c2472ed6d6a77abfca1ed6c854192e770b3/anyio-3.6.1-py3-none-any.whl
-bcrypt @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/63/62/6d/0a8ea0328e874ad05754cb5eff092d25c6ca0abeddae01a235cdb951ec/bcrypt-3.2.2-cp36-abi3-macosx_10_10_universal2.whl
-cachetools==5.2.0
-certifi==2022.6.15
-cffi @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/a2/fd/af/fd2b011ed8fbf5dd4149432cd268ab2df4e9563846ebb083c003bb9590/cffi-1.15.1-cp39-cp39-macosx_11_0_arm64.whl
-charset-normalizer==2.1.1
-click @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/9d/ca/2f/bc3cc4a294e96f355d01d24ac6fefdde4c6286f9f63b7ce1c91d5f0c22/click-8.1.3-py3-none-any.whl
-colorama @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/28/7e/1b/4d5c7485d20628c199b003e9107afc53d57aea621842a1bc23c31c0da1/colorama-0.4.5-py2.py3-none-any.whl
-fastapi @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/38/dd/6d/a005310af649a9eb80b1a0c89e4fde4176db7a85d576482b3104433fd6/fastapi-0.79.0-py3-none-any.whl
+aiomysql==0.1.1
+anyio==3.6.1
+bcrypt==3.2.2
+cffi==1.15.1
+click==8.1.3
+colorama==0.4.5
+fastapi==0.79.0
+greenlet==1.1.2
+gunicorn==20.1.0
+h11==0.13.0
+httptools==0.4.0
+idna==3.3
+Pillow==9.2.0
+pycparser==2.21
+pydantic==1.9.2
+PyJWT==2.4.0
+PyMySQL==1.0.2
+python-dotenv==0.20.0
+PyYAML==6.0
+sniffio==1.2.0
+SQLAlchemy==1.4.40
+starlette==0.19.1
+typing_extensions==4.3.0
+uvicorn==0.18.2
+uvloop==0.16.0
+watchfiles==0.16.1
+websockets==10.3
+requests==2.28.1
 google-api-core==2.8.2
 google-api-python-client==2.58.0
 google-auth==2.11.0
 google-auth-httplib2==0.1.0
 google-auth-oauthlib==0.5.2
 googleapis-common-protos==1.56.4
-greenlet==1.1.2
-gunicorn @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/d4/22/ea/fb991f1fdb4e8ae8fd30e0bce3c23ece991aa75df3f5a4c4f4d5aba6ae/gunicorn-20.1.0-py3-none-any.whl
-h11 @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/b8/da/55/44ffe0c74acbcaf35e29031794ef40115a51cc80bf443005d45c5f58db/h11-0.13.0-py3-none-any.whl
-httplib2==0.20.4
-httptools @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/ec/0f/9a/0cf2d1ee84d725f07da51518cfda1e57399b3acaf99243c77a9333e919/httptools-0.4.0-cp39-cp39-macosx_10_9_universal2.whl
-idna @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/d5/04/80/9c17fd3240a37d12ff2ef042b0306aeb1abd2d8b95f150fd60be938352/idna-3.3-py3-none-any.whl
-oauthlib==3.2.0
-Pillow @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/af/90/0d/14cbd29234f7b230fc80565a7af1d8e097cb9425a2531b5bc05a947b65/Pillow-9.2.0-cp39-cp39-macosx_11_0_arm64.whl
-protobuf==4.21.5
-pyasn1==0.4.8
-pyasn1-modules==0.2.8
-pycparser @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/fb/06/dd/b5671b47dd0597663bc05d60d324bb315a8cef56f3179b8f9067f88e50/pycparser-2.21-py2.py3-none-any.whl
-pydantic @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/50/a9/0c/b02adcddd2a408e527a2004546c87cea163dcf642b216bb7c782a9325b/pydantic-1.9.2-cp39-cp39-macosx_11_0_arm64.whl
-PyJWT @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/39/57/a7/ae4702380e15e84fee1f72eff6ef08d9557fd582df0153e98c4511ff3f/PyJWT-2.4.0-py3-none-any.whl
-PyMySQL @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/5a/d9/e8/465d354e265846c20ec6aef1b44046fbe3d5d0593a5936b1bb098b201d/PyMySQL-1.0.2-py3-none-any.whl
-pyparsing==3.0.9
-python-dotenv @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/26/7d/fc/00dba3061e0311441e0aa6225a9b3e9bca3485a9fefe7282a4cce094c5/python_dotenv-0.20.0-py3-none-any.whl
-PyYAML @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/25/f8/94/db44e9f8b70128654237804ee65af3166919186df60f85823aac5d4e1d/PyYAML-6.0-cp39-cp39-macosx_11_0_arm64.whl
-requests==2.28.1
-requests-oauthlib==1.3.1
-rsa==4.9
-six==1.16.0
-sniffio @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/d5/26/da/4c1b03b71c2d3fdf83bb7c73a0ddb8cf8071e4633d6d1193909c780cc2/sniffio-1.2.0-py3-none-any.whl
-SQLAlchemy @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/be/64/ca/10514b1edf9cac0f0c30307fb792321ba01fb9d2fb98944c10dc1330d2/SQLAlchemy-1.4.40.tar.gz
-starlette @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/6c/6a/3c/4895203ef83a8bc6a3a4219d78503f5592e165e5ac2b9a959571fdb3bb/starlette-0.19.1-py3-none-any.whl
-typing_extensions @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/c7/a2/3c/b8e5224a09b65b04693c613a52a41d6161affcaca091fbb647520b186c/typing_extensions-4.3.0-py3-none-any.whl
-uritemplate==4.1.1
-urllib3==1.26.12
-uvicorn @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/38/09/c8/6004b5a20aa793b51a56185e7b4be54de6a669239e8142963ce1a7cb2d/uvicorn-0.18.2-py3-none-any.whl
-uvloop @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/38/11/e7/467354e7b692a4f1382141b944efb63e2fa1c68b998032be42d657563e/uvloop-0.16.0-cp39-cp39-macosx_10_9_universal2.whl
-watchfiles @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/57/d1/4f/429900cc955618314bd64a9a332fdfcb8e6a65d6feb0e4be31653e496b/watchfiles-0.16.1-cp37-abi3-macosx_11_0_arm64.whl
-websockets @ file:///Users/ktw/Library/Caches/pypoetry/artifacts/c6/60/94/93d346a7d702e5e6e3d6f39fdc3d0b3044eb7add062c5fdf728398c5e4/websockets-10.3-cp39-cp39-macosx_11_0_arm64.whl
