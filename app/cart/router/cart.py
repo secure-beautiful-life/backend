@@ -3,6 +3,7 @@ from fastapi import APIRouter, Request, Query, Path
 from app.cart.dto import CreateCartRequestSchema, UpdateCartRequestSchema, \
     GetCartListResponseSchema
 from app.cart.service import CartService
+from app.product.repository import wish_models_to_entities
 from core.dtos import RequestSuccessResponseSchema, DefaultOpenAPIResponseSchema
 from fastapi import APIRouter, Request, Query, Path
 
@@ -36,8 +37,8 @@ async def get_cart_list_me(
 ):
     return {
         "total_length": await CartService().get_cart_count_with_user_id(user_id=base_request.user.id),
-        "content": await CartService().get_cart_list_with_user_id(user_id=base_request.user.id, limit=limit,
-                                                                  offset=offset)
+        "content": wish_models_to_entities(await CartService().get_cart_list_with_user_id(user_id=base_request.user.id, limit=limit,
+                                                                  offset=offset))
     }
 
 
