@@ -1,3 +1,4 @@
+import re
 from html import escape
 from typing import Optional
 
@@ -35,3 +36,11 @@ def validate_stock_quantity(stock_quantity: int) -> Optional[int]:
         raise ValueError("상품 수량은 1개 이상 입력하여야 합니다.")
 
     return stock_quantity
+
+
+def validate_email(email: str) -> Optional[str]:
+    regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+    if not re.fullmatch(regex, email):
+        raise ValueError("이메일 형식이 올바르지 않습니다.")
+
+    return email
