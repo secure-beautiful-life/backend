@@ -167,4 +167,5 @@ dependencies:
     - munch
     - pretrainedmodels
     - segmentation-models-pytorch==0.1.3
+    - opencv-python
 

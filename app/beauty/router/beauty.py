@@ -15,7 +15,7 @@ async def get_beauty_list(
         limit: int = Query(10, description="Limit"),
         offset: int = Query(None, description="Offset"),
 ):
-    await BeautyService().get_beauty_list_desc(limit=limit, offset=offset)
+    return { "content": await BeautyService().get_beauty_list_desc(limit=limit, offset=offset) }
 
 
 @beauty_router.get(
@@ -25,7 +25,7 @@ async def get_beauty_list(
 async def get_beauty(
     beauty_id: int = Path(..., description="BeautyId")
 ):
-    await BeautyService().get_beauty(beauty_id=beauty_id)
+    return await BeautyService().get_beauty(beauty_id=beauty_id)
 
 
 @beauty_router.post(

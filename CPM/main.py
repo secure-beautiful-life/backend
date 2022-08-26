@@ -24,6 +24,7 @@ def pattern_makeup(A_txt, B_txt, render_texture=False):
 
 
 if __name__ == "__main__":
+
     args = get_args()
     model = Makeup(args)
 
@@ -49,7 +50,9 @@ if __name__ == "__main__":
 
     x2, y2, x1, y1 = model.location_to_crop()
     output = np.concatenate([imgB[x2:], model.face[x2:], output[x2:]], axis=1)
-    save_path = os.path.join(args.savedir, args.filename)
 
-    Image.fromarray((output).astype("uint8")).save(save_path)
+    Image.fromarray((output).astype("uint8")).save('result.png')
+
+    save_path = "저장 완료"
+
     print("Completed 👍 Please check result in: {}".format(save_path))
