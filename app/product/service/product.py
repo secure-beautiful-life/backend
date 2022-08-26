@@ -1,3 +1,4 @@
+import os
 from typing import Optional, List
 
 from app.product.model import Product, ProductProfileImage, ProductDetailImage
@@ -7,7 +8,7 @@ from app.product.repository.product_beauty_image import ProductBeautyImageRepo
 from app.user.service import UserService
 from core.config import config
 from core.exceptions import BadRequestException, ForbiddenException
-from core.utils import ImageHelper
+from core.utils import ImageHelper, GmailHelper
 
 MAX_DETAIL_IMAGE_UPLOAD_SIZE = 5
 
@@ -144,3 +145,12 @@ class ProductService:
 
     def is_same_not_seller(self, user_id, product_id):
         return user_id != product_id
+
+    def send_product_image_to_email(self, destination: str, image_string: str):
+        image_size, image_type, saved_name = ImageHelper.upload_image(image_string, config.PRODUCT_IMAGE_DIR)
+        GmailHelper.send_message(
+            destination=destination,
+            subject="Beautiful Life 화이팅!",
+            body="소개딩 화이팅!",
+            attachments=[os.path.join(config.PRODUCT_IMAGE_DIR, saved_name)]
+        )
