@@ -1,3 +1,4 @@
+import os
 import uuid
 from typing import Optional
 
@@ -7,7 +8,6 @@ from app.product.service import ProductService
 from app.user.service import UserService
 from core.config import config
 from core.exceptions import ForbiddenException
-import os
 
 
 class BeautyService:
@@ -57,7 +57,8 @@ class BeautyService:
 
     def makeup(self, product_file_name, profile_file_name):
         random_file_name = str(uuid.uuid4())
-        cmd = f'python ./CPM/main.py --device cpu ' \
+        cmd = f'{os.path.join(config.BASE_DIR, "CPM", ".venv", "bin", "python")}' \
+              f' {os.path.join(config.BASE_DIR, "CPM", "main.py")} --device cpu' \
               f'--style {config.PRODUCT_IMAGE_DIR}/{product_file_name} ' \
               f'--input {config.USER_PROFILE_IMAGE_DIR}/{profile_file_name} ' \
               f'--savedir ${config.BEAUTY_IMAGE_DIR} --filename {random_file_name}'
