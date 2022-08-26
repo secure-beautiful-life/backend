@@ -25,7 +25,7 @@ class Config:
     ADMIN_PASSWORD: str = getenv("ADMIN_PASSWORD")
     MAX_LOGIN_ATTEMPT: int = 5
     LOGIN_FORBIDDEN_TIME: int = 5  # 5 Minutes
-    ALLOWED_IMAGE_TYPES: List[str] = ["PNG", "JPEG"]
+    ALLOWED_IMAGE_TYPES: List[str] = ["PNG"]
     MAX_IMAGE_SIZE: int = 1024 * 1024 * 10  # 10MB
     MEDIA_DIR: str = path.join(BASE_DIR, "media")
     USER_PROFILE_IMAGE_DIR: str = path.join(MEDIA_DIR, "user_profile_images")
