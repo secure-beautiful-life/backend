@@ -19,4 +19,3 @@ class RequestLog(Base, TimestampMixin):
     referer = Column(Unicode(255))
     user_id = Column(Integer)
     user_token = Column(Unicode(255))
-    # request_json = Column(JSON)

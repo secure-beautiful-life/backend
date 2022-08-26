@@ -10,4 +10,3 @@ class ResponseLog(Base, TimestampMixin):
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     session_id = Column(Unicode(255), nullable=False)
     status_code = Column(Integer, nullable=False)
-    # response_json = Column(JSON, nullable=False)
